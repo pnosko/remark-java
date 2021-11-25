@@ -20,7 +20,7 @@ import com.overzealous.remark.convert.DocumentConverter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.safety.Cleaner;
-import org.jsoup.safety.Whitelist;
+import org.jsoup.safety.Safelist;
 
 import java.io.File;
 import java.io.IOException;
@@ -70,7 +70,7 @@ public class Remark {
 	 * Creates a default, pure Markdown-compatible Remark instance.
 	 */
 	public Remark() {
-		this(Options.markdown());
+		this(Options.markdown(), null);
 	}
 
 	/**
@@ -78,9 +78,17 @@ public class Remark {
 	 *
 	 * @param options Specified options to use on this instance.  See the docs for the Options class for common options sets.
 	 */
-	public Remark(Options options) {
+	public Remark(Options options) { this(options, null); }
+
+	/**
+	 * Creates a Remark instance with the specified options and Jsoup whitelist.
+	 *
+	 * @param options Specified options to use on this instance.  See the docs for the Options class for common options sets.
+	 * @param safelist Specified safelist to use in the cleaner to clean HTML.
+	 */
+	public Remark(Options options, Safelist safelist) {
 		this.options = options.getCopy();
-		Whitelist whitelist = Whitelist.basicWithImages()
+		Safelist whitelist = safelist != null ? safelist : Safelist.basicWithImages()
 									  .addTags("div",
                                               "h1", "h2", "h3", "h4", "h5", "h6",
                                               "table", "tbody", "td", "tfoot", "th", "thead", "tr",

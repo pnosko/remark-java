@@ -25,13 +25,12 @@ apply plugin: 'io.codearte.nexus-staging'
 apply plugin: "eclipse"
 apply plugin: "idea"
 apply plugin: "java"
-apply plugin: 'maven'
 apply plugin: "nebula.optional-base"
 apply plugin: "biz.aQute.bnd.builder"
 apply from: 'deploy.gradle'
 
 archivesBaseName = "remark"
-sourceCompatibility = 1.6
+sourceCompatibility = 1.8
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 ext {
@@ -42,25 +41,26 @@ eclipse.project {
     name = appName
 }
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            pom.project {
-                name 'remark'
-                artifactId 'remark'
-                packaging 'jar'
-                description 'Remark is a library for taking (X)HTML input and outputting clean Markdown, Markdown Extra, or MultiMarkdown compatible text.'
-            }
-        }
-    }
-}
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            pom.project {
+//                name 'remark'
+//                artifactId 'remark'
+//                packaging 'jar'
+//                description 'Remark is a library for taking (X)HTML input and outputting clean Markdown, Markdown Extra, or MultiMarkdown compatible text.'
+//            }
+//        }
+//    }
+//}
 
 dependencies {
-    compile "org.jsoup:jsoup:1.9.2"
-    compile "org.apache.commons:commons-lang3:3.4"
-    compile "commons-cli:commons-cli:1.2", optional
-    testCompile "commons-io:commons-io:2.4"
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    implementation 'org.jsoup:jsoup:1.14.3'
+    implementation "org.apache.commons:commons-lang3:3.12.0"
+    implementation "org.apache.commons:commons-text:1.9"
+    implementation 'commons-cli:commons-cli:1.5.0'
+    testImplementation 'commons-io:commons-io:2.11.0'
+    testImplementation group: 'junit', name: 'junit', version: '4.13.2'
 }
 
 nexusStaging {
